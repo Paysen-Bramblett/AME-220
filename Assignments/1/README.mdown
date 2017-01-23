@@ -1,6 +1,6 @@
 # Assignment 1
 **Due Jan 25th before class**
-
+#upload test
 ## Task 1
 Convert the following to rgb format:
 * e.g #d6a6b9 = rgb(214,166,185)
@@ -18,7 +18,11 @@ b9 = b * 16^1 + 9 * 16^0
 
 
 
-* #562343
+* #562343 = rgb(86,35,67)
+	56=	5*16 +6*1		23=	2*16 + 3*1		43=4*16 +3*1
+	  = 80  +6            =32 + 3             =64 +3
+	  = 86                =35                 = 67
+
 * #37b13c
 * #25df2a
 * #3670ca
