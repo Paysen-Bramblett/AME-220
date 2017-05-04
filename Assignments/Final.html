@@ -1,0 +1,148 @@
+<html> <!--Paysen Bramblett 2017 -->
+<head>
+<style>
+p {
+    height:10%;
+    width:10%;
+    display:inline-block;
+    border:1px solid black;
+}
+</style>
+<title>
+  Image Filter
+</title>
+<style>
+  #imagePreview{
+      display: block;
+  }
+</style>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+
+<script>
+var MAX_WIDTH = 500;
+var MAX_HEIGHT = 500;
+var imageUploaded = function()
+{
+   var file = $('#uploadImage').get(0);
+   console.log(file.files[0].type);
+   if(file.files[0].type.split("/")[0].toLowerCase() != "image"){
+        alert("Incorrect file type -- Please ensure you are uploading an image file.");
+        return;
+   }
+   if ( file.files && file.files[0] && file.files[0].type.split("/")[0].toLowerCase() === "image") {
+        var FR = new FileReader();
+        FR.onload = function(e) {
+            var data = e.target.result;
+            console.log(data);
+            var canvas = document.createElement("canvas");
+            var img = document.createElement("img");
+            img.onload= function(){
+                var width = img.width;
+                var height = img.height;
+                
+                canvas.width = width;
+                canvas.height = height;
+                var ctx = canvas.getContext("2d");
+
+  var gs     = $("#gs").val();      // grayscale
+  var blur   = $("#blur").val();    // blur
+  var br     = $("#br").val();      // brightness
+  var ct     = $("#ct").val();      // contrast
+  var huer   = $("#huer").val();    //hue-rotate
+  var opacity      = $("#opacity").val(); //opacity
+  var invert   = $("#invert").val();  //invert
+  var saturate     = $("#saturate").val();//saturate
+  var sepia    = $("#sepia").val();   //sepia
+
+  
+                ctx.filter = 'grayscale(' + gs+
+      '%) blur(' + blur +
+      'px) brightness(' + br +
+      '%) contrast(' + ct +
+      '%) hue-rotate(' + huer +
+      'deg) opacity(' + opacity +
+      '%) invert(' + invert +
+      '%) saturate(' + saturate +
+      '%) sepia(' + sepia + '%)';//'sepia(100%)';
+                ctx.drawImage(img, 0, 0, width, height);
+                var base64St = canvas.toDataURL("image/png");
+                document.getElementById("imagePreview").src = base64St;
+                document.getElementById("imagePreview").style.height = height + "px";
+                document.getElementById("imagePreview").style.width= height + "px";
+            }
+            img.src = data;
+        };  
+        FR.readAsDataURL( file.files[0] );
+   }
+}
+function presetSelected()
+{
+  document.getElementById('canFilter').value = document.getElementById('filterPresets').value;
+  imageUploaded();
+}
+</script>
+
+</head>
+
+<body>
+  <input type="file" name="uploadImage" id="uploadImage" onchange="imageUploaded()">
+  <div class="sliders">
+        <form id="imageEditor">
+          <p>
+            <label for="gs">Grayscale</label>
+            <input id="gs" name="gs" type="range" min=0 max=100 value=0 onchange='imageUploaded()'>
+          </p>
+
+          <p>
+            <label for="blur">Blur</label>
+            <input id="blur" name="blur" type="range" min=0 max=10 value=0 onchange='imageUploaded()'>
+          </p>
+
+          <p>
+            <label for="br">Brightness</label>
+            <input id="br" name="br" type="range" min=0 max=200 value=100 onchange='imageUploaded()'>
+          </p>
+
+          <p>
+            <label for="ct">Contrast</label>
+            <input id="ct" name="ct" type="range" min=0 max=200 value=100 onchange='imageUploaded()'>
+          </p>
+
+          <p>
+            <label for="huer">Hue Rotate</label>
+            <input id="huer" name="huer" type="range" min=0 max=360 value=0 onchange='imageUploaded()'>
+          </p>
+
+          <p>
+            <label for="opacity">Opacity</label>
+            <input id="opacity" name="opacity" type="range" min=0 max=100 value=100 onchange='imageUploaded()'>
+          </p>
+
+          <p>
+            <label for="invert">Invert</label>
+            <input id="invert" name="invert" type="range" min=0 max=100 value=0 onchange='imageUploaded()'>
+          </p>
+
+          <p>
+            <label for="saturate">Saturate</label>
+            <input id="saturate" name="saturate" type="range" min=0 max=500 value=100 onchange='imageUploaded()'>
+          </p>
+
+          <p>
+            <label for="sepia">Sepia</label>
+            <input id="sepia" name="sepia" type="range" min=0 max=100 value=0 onchange='imageUploaded()'>
+          </p>
+
+          <input type="reset" form="imageEditor" id="reset" value="Reset" onClick='imageUploaded()'>
+
+        </form>
+      </div>  
+    
+  <img id="imagePreview">
+</body>
+
+
+</html>
